@@ -1,0 +1,12 @@
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\bin\Debug\net6.0\SuggestionAppLibrary.deps.json
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\bin\Debug\net6.0\SuggestionAppLibrary.dll
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\bin\Debug\net6.0\ref\SuggestionAppLibrary.dll
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\bin\Debug\net6.0\SuggestionAppLibrary.pdb
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\obj\Debug\net6.0\SuggestionAppLibrary.csproj.AssemblyReference.cache
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\obj\Debug\net6.0\SuggestionAppLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\obj\Debug\net6.0\SuggestionAppLibrary.AssemblyInfoInputs.cache
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\obj\Debug\net6.0\SuggestionAppLibrary.AssemblyInfo.cs
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\obj\Debug\net6.0\SuggestionAppLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\obj\Debug\net6.0\SuggestionAppLibrary.dll
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\obj\Debug\net6.0\ref\SuggestionAppLibrary.dll
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionAppLibrary\obj\Debug\net6.0\SuggestionAppLibrary.pdb

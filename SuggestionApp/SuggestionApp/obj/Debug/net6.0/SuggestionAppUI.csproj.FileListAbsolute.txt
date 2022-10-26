@@ -1,0 +1,8 @@
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionApp\obj\Debug\net6.0\SuggestionAppUI.csproj.AssemblyReference.cache
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionApp\obj\Debug\net6.0\SuggestionAppUI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionApp\obj\Debug\net6.0\SuggestionAppUI.AssemblyInfoInputs.cache
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionApp\obj\Debug\net6.0\SuggestionAppUI.AssemblyInfo.cs
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionApp\obj\Debug\net6.0\SuggestionAppUI.csproj.CoreCompileInputs.cache
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionApp\obj\Debug\net6.0\SuggestionAppUI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionApp\obj\Debug\net6.0\SuggestionAppUI.RazorAssemblyInfo.cache
+C:\Users\Johnn\Documents\vs-projects\applications\SuggestionApp\SuggestionApp\obj\Debug\net6.0\SuggestionAppUI.RazorAssemblyInfo.cs
