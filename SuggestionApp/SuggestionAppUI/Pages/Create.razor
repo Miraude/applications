@@ -1,0 +1,94 @@
+﻿@page "/Create"
+@using SuggestionAppUI.Components
+@using SuggestionAppUI.Models
+@inject ICategory category
+@inject ISuggestion suggestionData
+@inject IUser user
+@inject NavigationManager navManager
+
+<h1>Make a suggestion</h1>
+
+<div>
+    <div>
+        <div>
+            <button @onclick="ClosePage">Close</button>
+        </div>
+        @if (categories is not null)
+       {
+           
+       }
+       <EditForm Model="suggestion" OnValidSubmit="CreateSuggestion">
+           <DataAnnotationsValidator/>
+           <ValidationSummary/>
+           
+           <div>
+               <label for="suggestion-text">Title</label>
+               <div>Focus on the topic or technology you want to learn about.</div>
+               <InputText id="suggestion-text" @bind-Value="suggestion.Title" />
+           </div>
+           
+           <div>
+               <label for="category">Category</label>
+               <div>Choose one category.</div>
+               <div>
+                   <MyInputRadioGroup id="category" @bind-Value="suggestion.CategoryId">
+                       @foreach (var c in categories)
+                      {
+                          <div>
+                              <InputRadio Value="@c.Id" id="@c.Id"></InputRadio>
+                              <label for="@c.Id">@c.CategoryName - @c.Description</label>
+                          </div>
+                      }
+                   </MyInputRadioGroup>
+               </div>
+           </div>
+
+           <div>
+               <label for="description">Description</label>
+               <div>Briefly describe your suggestion.</div>
+               <InputTextArea id="description" @bind-Value="suggestion.Description" />
+           </div>
+
+           <div>
+               <button type="submit">Suggest</button>
+           </div>
+       </EditForm>
+    </div>
+</div>
+@code {
+    private CreateSuggestion suggestion = new();
+    private List<Category> categories;
+    private User loggedInUser;
+
+    protected async override Task OnInitializedAsync()
+    {
+        categories = await category.GetAllCategories();
+
+        //TODO - Replace with user lookup
+        loggedInUser = await user.GetUserFromAuthentication("abc-123");
+    }
+
+    private void ClosePage()
+    {
+        navManager.NavigateTo("/");
+    }
+
+    private async Task CreateSuggestion()
+    {
+        Suggestion s = new();
+        s.Title = suggestion.Title;
+        s.Description = suggestion.Description;
+        s.Author = new BasicUser(loggedInUser);
+        s.Category = categories.Where(c => c.Id == suggestion.CategoryId).FirstOrDefault();
+
+        if (s.Category is null)
+        {
+            suggestion.CategoryId = "";
+            return;
+        }
+
+        await suggestionData.CreateSuggestion(s);
+        suggestion = new();
+        ClosePage();
+    }
+}
