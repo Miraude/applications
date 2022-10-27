@@ -1,7 +1,7 @@
 ﻿
 namespace SuggestionAppLibrary.DataAccess;
 
-public interface IUserData
+public interface IUser
 {
    Task CreateUser(User user);
    Task<User> GetUser(string id);

@@ -1,7 +1,7 @@
 ﻿
 namespace SuggestionAppLibrary.DataAccess;
 
-public class MongoUserData : IUserData
+public class MongoUserData : IUser
 {
    private readonly IMongoCollection<User> _users;
    public MongoUserData(IDbConnection db)

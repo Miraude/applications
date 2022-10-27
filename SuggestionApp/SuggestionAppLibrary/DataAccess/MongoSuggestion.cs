@@ -3,12 +3,12 @@
 public class MongoSuggestion : ISuggestion
 {
    private readonly IDbConnection _db;
-   private readonly IUserData _userData;
+   private readonly IUser _userData;
    private readonly IMemoryCache _cache;
    private readonly IMongoCollection<Suggestion> _suggestions;
    private const string CacheName = "SuggestionData";
 
-   public MongoSuggestion(IDbConnection db, IUserData userData, IMemoryCache cache)
+   public MongoSuggestion(IDbConnection db, IUser userData, IMemoryCache cache)
    {
       _db = db;
       _userData = userData;
