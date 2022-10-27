@@ -6,7 +6,7 @@ public class MongoCategory : ICategory
 {
    private readonly IMongoCollection<Category> _categories;
    private readonly IMemoryCache _cache;
-   private const string cacheName = "CategoryData";
+   private const string CacheName = "CategoryData";
 
    public MongoCategory(IDbConnection db, IMemoryCache cache)
    {
@@ -16,13 +16,13 @@ public class MongoCategory : ICategory
 
    public async Task<List<Category>> GetAllCategories()
    {
-      var output = _cache.Get<List<Category>>(cacheName);
+      var output = _cache.Get<List<Category>>(CacheName);
       if (output is null)
       {
          var categories = await _categories.FindAsync(c => true);
          output = categories.ToList();
 
-         _cache.Set(cacheName, output, TimeSpan.FromDays(1));
+         _cache.Set(CacheName, output, TimeSpan.FromDays(1));
       }
       return output;
    }

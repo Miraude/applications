@@ -4,7 +4,7 @@ public class MongoStatus : IStatus
 {
    private readonly IMongoCollection<Status> _Status;
    private readonly IMemoryCache _cache;
-   private const string cacheName = "StatusData";
+   private const string CacheName = "StatusData";
 
    public MongoStatus(IDbConnection db, IMemoryCache cache)
    {
@@ -14,7 +14,7 @@ public class MongoStatus : IStatus
 
    public async Task<List<Status>> GetAllStatuses()
    {
-      var output = _cache.Get<List<Status>>(cacheName);
+      var output = _cache.Get<List<Status>>(CacheName);
 
       if (output is null)
       {
@@ -22,7 +22,7 @@ public class MongoStatus : IStatus
 
          output = statuses.ToList();
 
-         _cache.Set(cacheName, output, TimeSpan.FromDays(1));
+         _cache.Set(CacheName, output, TimeSpan.FromDays(1));
       }
       return output;
    }
