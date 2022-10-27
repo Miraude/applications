@@ -13,7 +13,7 @@ public static class DataInitializer
       builder.Services.AddSingleton<IDbConnection, DbConnection>();
       builder.Services.AddSingleton<ICategory, MongoCategory>();
       builder.Services.AddSingleton<IStatus, MongoStatus>();
-      builder.Services.AddSingleton<IUserData, MongoUserData>();
+      builder.Services.AddSingleton<IUser, MongoUserData>();
       builder.Services.AddSingleton<ISuggestion, MongoSuggestion>();
    }
 }
