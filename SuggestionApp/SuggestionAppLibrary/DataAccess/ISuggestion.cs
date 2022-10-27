@@ -9,6 +9,7 @@ public interface ISuggestion
    Task<List<Suggestion>> GetAllRejectedSuggestions();
    Task<List<Suggestion>> GetAllSuggestions();
    Task<Suggestion> GetSuggestion(string id);
+   Task<List<Suggestion>> GetUsersSuggestions(string userId);
    Task<List<Suggestion>> GetWaitingForApprovalSuggestions();
    Task UpdateSuggestion(Suggestion suggestion);
    Task UpvoteSuggestion(string suggestionId, string userId);

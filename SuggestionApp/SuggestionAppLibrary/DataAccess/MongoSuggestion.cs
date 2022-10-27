@@ -28,6 +28,18 @@ public class MongoSuggestion : ISuggestion
       }
       return output;
    }
+   public async Task<List<Suggestion>> GetUsersSuggestions(string userId)
+   {
+      var output = _cache.Get<List<Suggestion>>(userId);
+      if (output is null)
+      {
+         var author = await _suggestions.FindAsync(s => s.Author.Id == userId);
+         output = author.ToList();
+
+         _cache.Set(userId, output, TimeSpan.FromMinutes(1));
+      }
+      return output;
+   }
    public async Task<List<Suggestion>> GetAllPublicSuggestions()
    {
       var output = await GetAllSuggestions();
