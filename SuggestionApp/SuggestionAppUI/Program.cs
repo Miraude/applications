@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Hosting;
 using SuggestionAppUI;
 
@@ -26,6 +27,23 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseRewriter(
+   new RewriteOptions().Add(
+      context =>
+      {
+         //Logout defaults to a "logged out" page
+         if (context.HttpContext.Request.Path == "/MicrosoftIdentity/Account/SignedOut")
+         {
+            //redirects to my custom route, in this case, my homepage
+            context.HttpContext.Response.Redirect("/"); 
+         }
+      })
+   );
+
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
