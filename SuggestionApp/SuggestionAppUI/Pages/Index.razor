@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject AuthenticationStateProvider authProvider
 @inject ICategory category
 @inject IStatus status
 @inject IUser user
@@ -20,72 +21,72 @@
         <button class="btn btn-primary" @onclick="(() => OrderByNew(false))">Popular</button>
     </div>
     <div>
-        <input type="text" placeholder="Search" 
-            aria-label="Search box" 
-            @oninput="((txt) => OnSearchInput((string)txt.Value))"
-        />
+        <input type="text" placeholder="Search"
+               aria-label="Search box"
+               @oninput="((txt) => OnSearchInput((string)txt.Value))" />
     </div>
 </div>
 
 <div>
     <div>
         @if (suggestions is not null)
-       {
-           //Virtualize, no need for paging. Infinite scrolling ish. Only loads the visible ones plus a few more. It can also do paging.
-           <Virtualize Items="@suggestions" Context="s" OverscanCount="10">
-               <div>
-                   <div>
-                       <div>@GetUpvoteTopText(s)</div>
+        {
+            //Virtualize, no need for paging. Infinite scrolling ish. Only loads the visible ones plus a few more. It can also do paging.
+            <Virtualize Items="@suggestions" Context="s" OverscanCount="10">
+                <div>
+                    <div @onclick="(() => VoteUp(s))">
+                        <div>@GetUpvoteTopText(s)</div>
                         <span class="oi oi-caret-top"></span>
-                       <div>@GetUpvoteBottomText(s)</div>
-                   </div>
-                   <div>
-                       <div @onclick="(() => OpenDetails(s))">
-                           @s.Title
-                       </div>
-                       <div>
-                           <div @onclick="(() => OpenDetails(s))">
-                               @s.Category?.CategoryName
-                           </div>
-                       </div>
-                   </div>
-                   <div>
-                       <div>
-                         @s.SuggestionStatus?.StatusName
-                       </div>
-                   </div>
-               </div>
-           </Virtualize>
-       }
+                        <div>@GetUpvoteBottomText(s)</div>
+                    </div>
+                    <div>
+                        <div @onclick="(() => OpenDetails(s))">
+                            @s.Title
+                        </div>
+                        <div>
+                            <div @onclick="(() => OpenDetails(s))">
+                                @s.Category?.CategoryName
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            @s.SuggestionStatus?.StatusName
+                        </div>
+                    </div>
+                </div>
+            </Virtualize>
+        }
     </div>
     <div>
         @if (categories is not null)
-       {
-          <div>
-              <span>Category</span>
-              <div @onclick="(() => onCategoryClick())">All</div>
-              @foreach (var c in categories)
-             {
-                 <div @onclick="(() => onCategoryClick(c.CategoryName))">@c.CategoryName</div>
-             }
-          </div>
-       }
+        {
+            <div>
+                <span>Category</span>
+                <div @onclick="(() => onCategoryClick())">All</div>
+                @foreach (var c in categories)
+                {
+                    <div @onclick="(() => onCategoryClick(c.CategoryName))">@c.CategoryName</div>
+                }
+            </div>
+        }
         @if (statuses is not null)
         {
             <div>
-              <span>Status</span>
-              <div @onclick="(() => OnStatusClick())">All</div>
-              @foreach (var s in statuses)
-             {
-                 <div @onclick="(() => OnStatusClick(s.StatusName))">@s.StatusName</div>
-             }
-          </div>
+                <span>Status</span>
+                <div @onclick="(() => OnStatusClick())">All</div>
+                @foreach (var s in statuses)
+                {
+                    <div @onclick="(() => OnStatusClick(s.StatusName))">@s.StatusName</div>
+                }
+            </div>
         }
     </div>
 </div>
 
 
 @code {
+    private User loggedInUser;
     private List<Suggestion> suggestions;
     private List<Category> categories;
     private List<Status> statuses;
@@ -99,7 +100,61 @@
     {
         categories = await category.GetAllCategories();
         statuses = await status.GetAllStatuses();
+        await LoadAndVerifyUser();
+    }
+    private async Task LoadAndVerifyUser()
+    {
+        var authState = await authProvider.GetAuthenticationStateAsync();
+        string objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
+        //object id is used to check if somebody is logged in, thus if it's null, you're not logged in
+        if (string.IsNullOrWhiteSpace(objectId) == false)
+        {
+            loggedInUser = await user.GetUserFromAuthentication(objectId) ?? new();
+            //Grab the first claim that contains the value of the given name
+            string firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
+            string lastName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("surname"))?.Value;
+            string displayName = authState.User.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
+            string email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
 
+            //Track, have we changed the object?
+            bool isDirty = false;
+            if (objectId.Equals(loggedInUser.ObjectIdentifier) == false)
+            {
+                isDirty = true;
+                loggedInUser.ObjectIdentifier = objectId;
+            }
+            if (firstName.Equals(loggedInUser.FirstName) == false)
+            {
+                isDirty = true;
+                loggedInUser.FirstName = firstName;
+            }
+            if (lastName.Equals(loggedInUser.LastName) == false)
+            {
+                isDirty = true;
+                loggedInUser.LastName = lastName;
+            }
+            if (displayName.Equals(loggedInUser.DisplayName) == false)
+            {
+                isDirty = true;
+                loggedInUser.DisplayName = displayName;
+            }
+            if (email.Equals(loggedInUser.Email) == false)
+            {
+                isDirty = true;
+                loggedInUser.Email = email;
+            }
+            if (isDirty)
+            {
+                if (string.IsNullOrWhiteSpace(loggedInUser.Id))
+                {
+                    await user.CreateUser(loggedInUser);
+                }
+                else
+                {
+                    await user.UpdateUser(loggedInUser);
+                }
+            }
+        }
     }
     //runs after the page is rendered
     protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -154,7 +209,7 @@
         if (string.IsNullOrWhiteSpace(searchText) == false)
         {
             output = output.Where(
-                s => s.Title.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) || 
+                s => s.Title.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
                 s.Description.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
             ).ToList();
         }
@@ -194,7 +249,36 @@
         selectedStatus = status;
         await FilterSuggestions();
     }
+    private async Task VoteUp(Suggestion s)
+    {
 
+        if (loggedInUser is not null)
+        {
+            if (s.Author.Id == loggedInUser.Id)
+            {
+                // Can't vote on your own suggestion
+                return;
+            }
+
+            if (s.UserVotes.Add(loggedInUser.Id) == false)
+            {
+                s.UserVotes.Remove(loggedInUser.Id);
+            }
+
+            await suggestion.UpvoteSuggestion(s.Id, loggedInUser.Id);
+
+            if (isSortedByNew == false)
+            {
+                suggestions = suggestions
+                    .OrderByDescending(s => s.UserVotes.Count)
+                    .ThenByDescending(s => s.DateCreated).ToList();
+            }
+        }
+        else
+        {
+            navManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
+        }
+    }
     private string GetUpvoteTopText(Suggestion suggestion)
     {
         if (suggestion.UserVotes?.Count > 0)
@@ -203,7 +287,14 @@
         }
         else
         {
-            return "Click To";
+            if (suggestion.Author.Id == loggedInUser?.Id)
+            {
+                return "Awaiting";
+            }
+            else
+            {
+                return "Click To";
+            }
         }
     }
     private string GetUpvoteBottomText(Suggestion suggestion)
