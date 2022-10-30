@@ -1,4 +1,5 @@
 ﻿@page "/Admin/Approve"
+@attribute [Authorize(Policy = "Admin")]
 @inject ISuggestion suggestion
 @inject IUser user
 @inject NavigationManager navManager
