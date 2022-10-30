@@ -70,12 +70,12 @@ public class MongoSuggestion : ISuggestion
       {
          var db = client.GetDatabase(_db.DbName);
          var suggestionsInTransaction = db.GetCollection<Suggestion>(_db.SuggestionCollectionName);
-         await suggestionsInTransaction.InsertOneAsync(suggestion);
+         await suggestionsInTransaction.InsertOneAsync(session, suggestion);
 
          var usersInTransaction = db.GetCollection<User>(_db.UserCollectionName);
          var user = await _userData.GetUser(suggestion.Author.Id);
          user.AuthoredSuggestions.Add(new BasicSuggestion(suggestion));
-         await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user);
+         await usersInTransaction.ReplaceOneAsync(session, u => u.Id == user.Id, user);
          await session.CommitTransactionAsync();
       }
       catch (Exception e)
@@ -106,17 +106,18 @@ public class MongoSuggestion : ISuggestion
          var suggestionsInTransaction = db.GetCollection<Suggestion>(_db.SuggestionCollectionName);
          var suggestion = (await suggestionsInTransaction.FindAsync(s => s.Id == suggestionId)).First();
 
-         bool isUpvoted = suggestion.UserVotes.Add(userId);
-         if (isUpvoted == false)
+         bool isUpvote = suggestion.UserVotes.Add(userId);
+         if (isUpvote == false)
          {
             suggestion.UserVotes.Remove(userId);
          }
-         await suggestionsInTransaction.ReplaceOneAsync(s => s.Id == suggestionId, suggestion);
+
+         await suggestionsInTransaction.ReplaceOneAsync(session, s => s.Id == suggestionId, suggestion);
 
          var usersInTransaction = db.GetCollection<User>(_db.UserCollectionName);
-         var user = await _userData.GetUser(suggestion.Author.Id);
+         var user = await _userData.GetUser(userId);
 
-         if (isUpvoted)
+         if (isUpvote)
          {
             user.VotedOnSuggestions.Add(new BasicSuggestion(suggestion));
          }
@@ -125,7 +126,7 @@ public class MongoSuggestion : ISuggestion
             var suggestionToRemove = user.VotedOnSuggestions.Where(s => s.Id == suggestionId).First();
             user.VotedOnSuggestions.Remove(suggestionToRemove);
          }
-         await usersInTransaction.ReplaceOneAsync(u => u.Id == userId, user);
+         await usersInTransaction.ReplaceOneAsync(session, u => u.Id == userId, user);
 
          await session.CommitTransactionAsync();
 
