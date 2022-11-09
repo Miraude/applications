@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTest\\SokigoTest\\SokigoTest.csproj": {}
+    "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTestComplete\\SokigoTest\\SokigoTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTest\\SokigoTest\\SokigoTest.csproj": {
+    "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTestComplete\\SokigoTest\\SokigoTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTest\\SokigoTest\\SokigoTest.csproj",
+        "projectUniqueName": "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTestComplete\\SokigoTest\\SokigoTest.csproj",
         "projectName": "SokigoTest",
-        "projectPath": "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTest\\SokigoTest\\SokigoTest.csproj",
+        "projectPath": "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTestComplete\\SokigoTest\\SokigoTest.csproj",
         "packagesPath": "C:\\Users\\Johnn\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTest\\SokigoTest\\obj\\",
+        "outputPath": "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTestComplete\\SokigoTest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

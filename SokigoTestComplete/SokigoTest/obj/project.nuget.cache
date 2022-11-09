@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8XNokFiv6tumtGy1FCxAOVlIqNzbxraKTG6r8fBQ/PHV/qDqop7Q9Y25Wu/Fgd3l+Je+4wLhTR605ONl0OYJDQ==",
+  "dgSpecHash": "j6XlwXzAkEDn+iIO4r8XeayH+Ca49ULXbLnbV4AfFo0GHU9MCtrUOMNsNyiDh1vkUAan+WZybHWhyFi5z2T9wA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTest\\SokigoTest\\SokigoTest.csproj",
+  "projectFilePath": "C:\\Users\\Johnn\\Documents\\vs-projects\\applications\\SokigoTestComplete\\SokigoTest\\SokigoTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Johnn\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Johnn\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
