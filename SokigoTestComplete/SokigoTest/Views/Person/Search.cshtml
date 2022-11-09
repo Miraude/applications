@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PersonsModel>
+
+
+<div class="container mt-4">
+    <table class="table">
+
+        <div>
+            <input name="searchName" type="text" placeholder="...Search" />
+        </div>
+        <div>
+            <a class="btn btn-primary" asp-controller="Person" asp-action="Create">Create</a>
+        </div>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+        </tr>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>
+                <td>@person.Address</td>
+            </tr>
+        }
+    </table>
+</div>
